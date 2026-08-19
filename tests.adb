@@ -117,8 +117,8 @@ begin
 
    Put_Line("TEST 12 - PFA Single Pulse Response (Delta Function Check)");
    declare
-      Delta : Complex_Array(0..5) := ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0));
-      Pulse_Out : Complex_Array(0..5) := PFA_Transform(Delta, 2, 3);
+      Delta_Pulse : Complex_Array(0..5) := ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0));
+      Pulse_Out   : Complex_Array(0..5) := PFA_Transform(Delta_Pulse, 2, 3);
    begin
       Assert(Is_Close(Pulse_Out(1), (1.0, 0.0)), "12.1 Transform of Delta(0) is (1.0, 0.0) across all bins");
       Assert(Is_Close(Pulse_Out(5), (1.0, 0.0)), "12.2 Bin 5 is (1.0, 0.0)");
@@ -127,7 +127,7 @@ begin
    Put_Line("TEST 13 - PFA Complex Signal Orthogonality");
    declare
       Complex_Sig : Complex_Array(0..5) := ((0.0, 1.0), (0.0, -1.0), (0.0, 1.0), (0.0, -1.0), (0.0, 1.0), (0.0, -1.0));
-      Out_Cmplx : Complex_Array(0..5) := PFA_Transform(Complex_Sig, 2, 3);
+      Out_Cmplx   : Complex_Array(0..5) := PFA_Transform(Complex_Sig, 2, 3);
    begin
       Assert(Is_Close(Out_Cmplx(0), (0.0, 0.0)), "13.1 DC of alternating pure-imaginary is 0");
       Assert(abs(Out_Cmplx(3).Im) > 1.0, "13.2 Nyquist bin detects the real component energy");
