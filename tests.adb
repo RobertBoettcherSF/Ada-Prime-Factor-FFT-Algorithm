@@ -109,7 +109,8 @@ begin
    Put_Line("TEST 10 - In-Place PFA Variant (Functional Match N=6)");
    Res_In_Place(0..5) := Sig_N6;
    PFA_Transform_In_Place(Res_In_Place(0..5), 2, 3);
-   Assert(Are_Arrays_Close(Res_In_Place(0..5), Res_PFA(0..5)), "10.1 In-place variant outputs equal Out-of-place");
+   -- Bypassing the contaminated Res_PFA variable by computing expected directly here
+   Assert(Are_Arrays_Close(Res_In_Place(0..5), PFA_Transform(Sig_N6, 2, 3)), "10.1 In-place variant outputs equal Out-of-place");
 
    Put_Line("TEST 11 - In-Place PFA Inverse Reversibility");
    PFA_Transform_In_Place(Res_In_Place(0..5), 2, 3, True);
