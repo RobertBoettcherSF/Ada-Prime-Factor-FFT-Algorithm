@@ -91,33 +91,33 @@ package body Prime_Factor_FFT is
       N2_Inv_N1 := Mod_Inverse(N2, N1);
       N1_Inv_N2 := Mod_Inverse(N1, N2); 
 
-      -- 1. Input Mapping: Rader / Good-Thomas Mapping n = (n1*N2 + n2*N1) mod N
-      for n1 in 0 .. N1 - 1 loop
-         for n2 in 0 .. N2 - 1 loop
-            n_idx := (n1 * N2 + n2 * N1) mod N;
-            Temp2D(n1, n2) := Input(Input'First + n_idx);
+      -- 1. Input Mapping: Rader / Good-Thomas Mapping n = (Idx1*N2 + Idx2*N1) mod N
+      for Idx1 in 0 .. N1 - 1 loop
+         for Idx2 in 0 .. N2 - 1 loop
+            n_idx := (Idx1 * N2 + Idx2 * N1) mod N;
+            Temp2D(Idx1, Idx2) := Input(Input'First + n_idx);
          end loop;
       end loop;
 
       -- 2. Inner Transform: Compute DFT along N1 (rows)
-      for n2 in 0 .. N2 - 1 loop
-         for n1 in 0 .. N1 - 1 loop
-            Row_In(n1) := Temp2D(n1, n2);
+      for Idx2 in 0 .. N2 - 1 loop
+         for Idx1 in 0 .. N1 - 1 loop
+            Row_In(Idx1) := Temp2D(Idx1, Idx2);
          end loop;
          Row_Out := DFT_Naive(Row_In, Inverse);
-         for n1 in 0 .. N1 - 1 loop
-            Temp2D(n1, n2) := Row_Out(n1);
+         for Idx1 in 0 .. N1 - 1 loop
+            Temp2D(Idx1, Idx2) := Row_Out(Idx1);
          end loop;
       end loop;
 
       -- 3. Outer Transform: Compute DFT along N2 (cols)
-      for n1 in 0 .. N1 - 1 loop
-         for n2 in 0 .. N2 - 1 loop
-            Col_In(n2) := Temp2D(n1, n2);
+      for Idx1 in 0 .. N1 - 1 loop
+         for Idx2 in 0 .. N2 - 1 loop
+            Col_In(Idx2) := Temp2D(Idx1, Idx2);
          end loop;
          Col_Out := DFT_Naive(Col_In, Inverse);
-         for n2 in 0 .. N2 - 1 loop
-            Temp2D(n1, n2) := Col_Out(n2);
+         for Idx2 in 0 .. N2 - 1 loop
+            Temp2D(Idx1, Idx2) := Col_Out(Idx2);
          end loop;
       end loop;
 
